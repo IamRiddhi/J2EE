@@ -7,13 +7,6 @@ package riddhi.j2ee.userlogin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author RIDDHI DUTTA
  */
-public class AddPostCommentServlet extends HttpServlet {
+public class DeleteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,36 +32,20 @@ public class AddPostCommentServlet extends HttpServlet {
             throws ServletException, IOException {
         if(WebUtil.isLoggedIn(request, response, true))
         {
-            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter pw = response.getWriter();
             HttpSession session = request.getSession();
-            String pc = request.getParameter("pc");
-            int userid = ((User)(session.getAttribute("user"))).getUserID();
-            if(("post").equals(pc))
+            String pc = (String)(request.getParameter("pc"));
+            if("post".equals(pc)) //delete post
             {
-                String posttitle = request.getParameter("posttitle");
-                String postabstract = request.getParameter("postabstract");
-                if(Post.addPost(userid, posttitle, postabstract))
+                int postid = Integer.parseInt(request.getParameter("delete"));
+                if(Post.deletePost(postid))
                     response.sendRedirect("showpost.do");
-            }  
-            else if("comment".equals(pc))
+            }
+            else if("comment".equals(pc)) //delete comment
             {
-                int postid = Integer.parseInt((request.getParameter("postid")));
-                String commentText = (String)(request.getParameter("mycomment"));
-                int commentid = Comment.postComment(userid,postid,commentText);
-                if(commentid!=-1)
-                {
-                    Date commenttime = Comment.getTime(commentid); 
-                    PrintWriter pw = response.getWriter();
-                   // get Latest comment
-                   Comment c = new Comment(postid,userid,commentid,commentText,commenttime);
-                   pw.println("<div id = \""+commentid+"\">");             
-                    pw.println("<p>"+ c.getCommentText()+"</p>");
-                    pw.println("<p>- "+ User.getUser(c.getUserId()).getUsername()+"</p>");
-                    pw.println("<p>: "+ c.getCommentTime()+"</p>");
-                    pw.println("<button  type=\"button\" class=\"btn btn-danger\" style=\"background-color:#f44336;\" id=\""+c.getCommentId()+"\" onclick=\"delete_comment(this.id)\">");
-                    pw.println("Delete</button><hr>");
-                    pw.println("</div>");
-                }
+                int commentid = Integer.parseInt(request.getParameter("commentid"));
+                Comment.deleteComment(commentid);
+                   
             }
         }
     }

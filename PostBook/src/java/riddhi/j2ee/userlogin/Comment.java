@@ -25,7 +25,28 @@ public class Comment
     private String commentText;
     private Date commentTime;
     
-    
+    public static boolean deleteComment(int commentid)
+    {
+            try
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
+            try(Connection con = DriverManager.getConnection(url)){
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate("delete from post_comment where commentid = "+commentid);
+                System.out.println(commentid);
+                return true;
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+    }
     public static Date getTime(int commentid)
     {
         try
@@ -41,7 +62,7 @@ public class Comment
             Connection con = DriverManager.getConnection(url);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select commenttime from post_comment where commentid="+commentid);
-            rs.next();
+            if(rs.next())
             return rs.getDate(1);
         } catch (SQLException ex)
             {
@@ -51,7 +72,7 @@ public class Comment
     }
     public static int postComment(int userid,int postid, String commentText)
     {
-        try
+          try
         {
             try
             {

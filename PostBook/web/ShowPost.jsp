@@ -13,13 +13,38 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <title>PostBook</title>
     <style>
-              
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+           }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; 
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+             border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-gradient(linear, left top, right top, from(#ffecd2), to(#fcb69f));
+            background-image: -webkit-linear-gradient(left, #ffecd2 0%, #fcb69f 100%);
+            background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+        }
+
+         
          ul {
            list-style-type: georgian;
-           width: 70%;
+           width: 100%;
            heigth:auto;
+           background-color: whitesmoke;
          }
 
          h3 {
@@ -32,22 +57,24 @@
 
          li {
            overflow: auto;
+           width:100%;
          }
-
-         li:hover {
-           background: #eee;
-           cursor: pointer;
+          li:hover {
+              background: #3366ff;
+              color: white;
+           width:100%; 
+          cursor: pointer;
          }
 
          .thumbnail{
              float:left:
-                 background-color:yellow;
+             background-color:yellow;
              width:30%;
              margin-left:2%;
              position: absolute;
             height: 70%;
             overflow-y: auto;
-            border="1px solid black"
+            border="2px solid black";
          }
          .content{
              width:60%;
@@ -185,7 +212,7 @@ hr {
         <hr>
         <% ArrayList<Post> posts = (ArrayList<Post>)(request.getAttribute("posts")); %>
       <div class="thumbnail" >
-        <ul>
+        <ul class="list-group">
           <% for(Post p:posts)
             {
                 User u = User.getUser(p.getUserId());
@@ -227,15 +254,33 @@ hr {
                 xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                   if (this.readyState == 4 && this.status == 200) {
+                      document.getElementById("comment_size").innerHTML = parseInt(document.getElementById("comment_size").innerHTML) + 1 + "";
                     document.getElementById("comment_section").innerHTML += this.responseText;
                     document.getElementById("my_comment").value="";
                   }
                 };
                 xhttp.open("POST", "addpc.do?postid="+postid+"&mycomment="+mycomment+"&pc=comment", true);
                 xhttp.send();
-                
-                
             }
+            
+            function delete_comment(commentid)
+            {
+                var xhttp;    
+                if (commentid == "") {
+                  return;
+                }
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                      document.getElementById("comment_size").innerHTML = parseInt(document.getElementById("comment_size").innerHTML) -1 + "";
+                    document.getElementById(commentid).innerHTML = "";
+                  }
+                };
+                xhttp.open("POST", "delete.do?commentid="+commentid+"&pc=comment", true);
+                xhttp.send();
+            }
+            
+            
             </script>
             <script>
                 // Get the modal

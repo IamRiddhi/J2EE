@@ -21,7 +21,31 @@ public class Post
     private Date postTime;
     private ArrayList<Comment> comments; 
     
-    
+    public static boolean deletePost(int postid)
+    {
+            String driverClassName = "com.mysql.jdbc.Driver";
+            try {
+                Class.forName(driverClassName);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShowPostServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
+            try(Connection con = DriverManager.getConnection(url)){
+                con.setAutoCommit(false);
+                
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate("delete from post_comment where postid = "+postid);
+                
+                stmt.executeUpdate("delete from user_post where postid="+postid);
+                
+                con.commit(); con.setAutoCommit(true);
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(Post.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+    }
+   
     public static ArrayList<Post> getAllPosts()
     {
         try {

@@ -28,6 +28,10 @@
         <servlet-name>AddPostCommentServlet</servlet-name>
         <servlet-class>riddhi.j2ee.userlogin.AddPostCommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.DeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginPageServlet</servlet-name>
         <url-pattern>/loginpage.do</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>AddPostCommentServlet</servlet-name>
         <url-pattern>/addpc.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/delete.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
