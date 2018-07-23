@@ -15,7 +15,7 @@
     <servlet>
         <servlet-name>EditServlet</servlet-name>
         <servlet-class>riddhi.j2ee.userlogin.EditServlet</servlet-class>
-    </servlet>
+        </servlet>
     <servlet>
         <servlet-name>SaveServlet</servlet-name>
         <servlet-class>riddhi.j2ee.userlogin.SaveServlet</servlet-class>

@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <servlet>
+        <servlet-name>LoginPageServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.LoginPageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginExecuteServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.LoginExecuteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.SaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowPostServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.ShowPostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPostServlet</servlet-name>
+        <servlet-class>riddhi.j2ee.userlogin.GetPostServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginPageServlet</servlet-name>
+        <url-pattern>/loginpage.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginExecuteServlet</servlet-name>
+        <url-pattern>/loginExecute.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveServlet</servlet-name>
+        <url-pattern>/saveprofile.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowPostServlet</servlet-name>
+        <url-pattern>/showpost.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPostServlet</servlet-name>
+        <url-pattern>/getpost.do</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>showpost.do</welcome-file>
     </welcome-file-list>
 </web-app>
