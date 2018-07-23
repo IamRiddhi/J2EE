@@ -7,17 +7,24 @@ package riddhi.j2ee.userlogin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author RIDDHI DUTTA
  */
-public class GetPostServlet extends HttpServlet {
+public class AddPostCommentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,33 +37,36 @@ public class GetPostServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        PrintWriter pw = response.getWriter();
-        int postid = Integer.parseInt(request.getParameter("id"));
-        Post post = Post.getPostById(postid);
-        
-        pw.println("<h2>"+post.getPostTitle()+"</h2><br>"+"<hr>");
-        pw.println("<p>"+post.getPostAbstract()+"</p>");
-        pw.println("<hr><p>Posted on "+post.getPostTime()+"</p>");
-        pw.println("<br>Posted by "+User.getUser(post.getUserId()).getUsername());
-         
-        ArrayList<Comment> comments = post.getComments();
-        pw.println("<hr><h3><span id=\"comment_header\">Comments("+comments.size()+")</span></h3>");
-        
-        pw.println("<div id=\"comment_section\">");
-        for(Comment c:comments)
-        {
-            pw.println("<p>"+ c.getCommentText()+"</p>");
-            pw.println("<p>- "+ User.getUser(c.getUserId()).getUsername()+"</p>");
-            pw.println("<p>: "+ c.getCommentTime()+"</p><hr>");
-        }
-        pw.println("</div>");
-        pw.println("<h5> Comment within 255 characters</h5>");
-        pw.println("<textarea id=\"my_comment\"> </textarea><br>");
-        pw.println("<button class=\"signupbtn\" style=\"width:20%;\" id="+postid+" onclick=\"add_comment(this.id)\" >Add Comment</button>");
-  
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession session = request.getSession();
+            String pc = request.getParameter("pc");
+            int userid = ((User)(session.getAttribute("user"))).getUserID();
+            if(("post").equals(pc))
+            {
+                String posttitle = request.getParameter("posttitle");
+                String postabstract = request.getParameter("postabstract");
+                if(Post.addPost(userid, posttitle, postabstract))
+                    response.sendRedirect("showpost.do");
+            }  
+            else if("comment".equals(pc))
+            {
+                int postid = Integer.parseInt((request.getParameter("postid")));
+                String commentText = (String)(request.getParameter("mycomment"));
+                int commentid = Comment.postComment(userid,postid,commentText);
+                if(commentid!=-1)
+                {
+                    Date commenttime = Comment.getTime(commentid); 
+                    PrintWriter pw = response.getWriter();
+                   // get Latest comment
+                   Comment c = new Comment(postid,userid,commentid,commentText,commenttime);
+                    pw.println("<p>"+ c.getCommentText()+"</p>");
+                    pw.println("<p>- "+ User.getUser(c.getUserId()).getUsername()+"</p>");
+                    pw.println("<p>: "+ c.getCommentTime()+"</p><hr>");
+                }
+            }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -95,4 +105,5 @@ public class GetPostServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

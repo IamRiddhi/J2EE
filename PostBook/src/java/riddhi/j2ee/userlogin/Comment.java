@@ -7,6 +7,7 @@ package riddhi.j2ee.userlogin;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,6 +24,61 @@ public class Comment
     private int postId,userId,commentId;
     private String commentText;
     private Date commentTime;
+    
+    
+    public static Date getTime(int commentid)
+    {
+        try
+        {
+            try
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
+            Connection con = DriverManager.getConnection(url);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select commenttime from post_comment where commentid="+commentid);
+            rs.next();
+            return rs.getDate(1);
+        } catch (SQLException ex)
+            {
+                Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return null;
+    }
+    public static int postComment(int userid,int postid, String commentText)
+    {
+        try
+        {
+            try
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
+            Connection con = DriverManager.getConnection(url);
+            PreparedStatement pstmt = con.prepareStatement("insert into `post_comment` (userid,postid,commenttext) VALUES(?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1,userid);
+            pstmt.setInt(2,postid);
+            pstmt.setString(3,commentText);
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            int key = -1;
+            if(rs.next())
+                key = rs.getInt(1);
+            con.close();
+            return key;
+        } catch (SQLException ex)
+            {
+                Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+                return -1;
+            }
+    }
     
     public static ArrayList<Comment> getAllComments(int id)
     {

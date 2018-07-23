@@ -140,7 +140,12 @@ public class User
             }    
             
             // inserting
-            PreparedStatement pstmt = con.prepareStatement("insert into user_detail values(?,?)");
+//            Statement getId = con.createStatement();
+//            ResultSet rsId = getId.executeQuery("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"intern\" AND TABLE_NAME = \"user_detail\";");
+//            rsId.next();
+//            int userid= rsId.getInt(1);
+            
+            PreparedStatement pstmt = con.prepareStatement("insert into user_detail (username,password) values(?,?)");
             pstmt.setString(1, u.getUsername()); 
             pstmt.setString(2, u.getPassword());
             pstmt.executeUpdate();

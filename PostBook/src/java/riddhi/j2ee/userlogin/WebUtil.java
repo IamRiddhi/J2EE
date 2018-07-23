@@ -6,6 +6,11 @@
 package riddhi.j2ee.userlogin;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
@@ -19,6 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 public class WebUtil
 {
+
     public static Cookie getCookieByName(HttpServletRequest req, String cookieName)
     {
         Cookie[] cookies = req.getCookies();

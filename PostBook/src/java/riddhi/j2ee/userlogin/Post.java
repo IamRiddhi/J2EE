@@ -87,7 +87,33 @@ public class Post
     {
         
     }
-
+    
+    public static boolean addPost(int userId,String postTitle,String postAbstract)
+    {
+        try
+        {
+            try
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
+            Connection con = DriverManager.getConnection(url);
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO `user_post` (posttitle,postabstract,userid) VALUES(?,?,?);");
+            pstmt.setString(1,postTitle);
+            pstmt.setString(2,postAbstract);
+            pstmt.setInt(3,userId);
+            pstmt.executeUpdate();
+            con.close();
+            return true;
+        } catch (SQLException ex)
+            {
+                Logger.getLogger(Post.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return false;
+    }
     public Post(int postId, int userId, String postAbstract, String postTitle, Date postTime) {
         this.postId = postId;
         this.userId = userId;
