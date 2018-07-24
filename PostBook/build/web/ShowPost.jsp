@@ -80,7 +80,8 @@
              width:60%;
              float:right;
              margin:5%;
-             overflow: auto;
+             margin-top: 0%;
+             overflow-x: auto;
              overflow-style: scrollbar;
          }
          h1
@@ -177,8 +178,7 @@
 hr {
     border: 1px solid #f1f1f1;
     margin-bottom: 25px;
-
-
+}
          .blank{
              width:5%;
              margin:1%;
@@ -186,14 +186,15 @@ hr {
         </style>
     </head>
     <body>
-     <center style="font-family:Helvetica;font-size:40px;color:red"> <b> Welcome <%= ((User)(session.getAttribute("user"))).getUsername() %> </b></center>
-        <button onclick="document.getElementById('id01').style.display='block'" style="float:left;">Post</button>
+     <center style="font-family:Helvetica;font-size:40px;color:red"> <b> Welcome <%= ((User)(session.getAttribute("user"))).getUsername()%> </b></center>
+ 
+       
         <!-- modal -->
         <div id="id01" class="modal">
 	  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 		<form class="modal-content" action="addpc.do" method="post">
 				<div class="container">
-					<h1>Post</h1>
+					<h1>New Post</h1>
                      <input type="text" name="pc" value="post" style="display:none;">                   
 		      <hr>
 				<b>Title</b> <input type="text" name="posttitle">
@@ -223,6 +224,7 @@ hr {
                 </li>
             <%}%>
         </ul>
+        <button onclick="document.getElementById('id01').style.display='block'" style="width:100%;"><center>New Post</center></button>
       </div>
         <div class="content" id="content" >
 

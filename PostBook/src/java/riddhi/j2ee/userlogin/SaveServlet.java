@@ -42,26 +42,16 @@ public class SaveServlet extends HttpServlet
         {
             HttpSession session = request.getSession();
             String username,password;
-            boolean edit = false;
-            int id = -1;
-            if(session.getAttribute("user")!=null)
-            {
-                id = ((User)(session.getAttribute("user"))).getUserID();
-                username = ((User)(session.getAttribute("user"))).getUsername();
-                password = ((User)(session.getAttribute("user"))).getPassword();
-                edit = true;
-            }
-            else
-            {
-                username = request.getParameter("username");
-                password = request.getParameter("password");
-            }
+            username = request.getParameter("username");
+            password = request.getParameter("password");
 
             User u = new User();
             u.setUsername(username);
             u.setPassword(password);
-            if(User.update(u,edit))
+            int userid = User.update(u);
+            if(userid!=-1)
             {
+                u.setUserID(userid);
                 session.setAttribute("user", u);
                 response.sendRedirect("showpost.do");
             }

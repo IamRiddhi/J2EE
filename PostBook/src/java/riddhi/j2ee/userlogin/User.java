@@ -118,7 +118,7 @@ public class User
     }
    
     
-    public static boolean update(User u,boolean edit)
+    public static int update(User u)
     {
         try
         {
@@ -131,33 +131,24 @@ public class User
             }
             String url = "jdbc:mysql://localhost/intern?user=root&password=riddhi";
             Connection con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            if(edit) //if editing delete exisiting
-            {
-                PreparedStatement pstmt = con.prepareStatement("delete from user_detail where UserID=?");
-                pstmt.setInt(1,u.getUserID()); 
-                pstmt.executeUpdate();
-            }    
             
-            // inserting
-//            Statement getId = con.createStatement();
-//            ResultSet rsId = getId.executeQuery("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"intern\" AND TABLE_NAME = \"user_detail\";");
-//            rsId.next();
-//            int userid= rsId.getInt(1);
-            
-            PreparedStatement pstmt = con.prepareStatement("insert into user_detail (username,password) values(?,?)");
+            PreparedStatement pstmt = con.prepareStatement("insert into user_detail (username,password) values(?,?)",Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, u.getUsername()); 
             pstmt.setString(2, u.getPassword());
             pstmt.executeUpdate();
-            con.commit(); con.setAutoCommit(true); con.close();
+            ResultSet rs = pstmt.getGeneratedKeys();
             
+            int key = -1;
+            if(rs.next())
+                key = rs.getInt(1);
+            con.close();
+            return key;
             
         } catch (SQLException ex)
         {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return -1;
         }
-        return true;
     }
     public int getUserID()
     {

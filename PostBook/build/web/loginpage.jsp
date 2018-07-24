@@ -234,14 +234,16 @@ span.psw {
 	<% session.removeAttribute("invalid");} %>	
 	<div id="id01" class="modal">
 	  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content" action="saveprofile.do" method="post">
+		<form class="modal-content"  name="signup" action="saveprofile.do" method="post" onSubmit="return validateForm(event);">
 				<div class="container">
 					<h1>Sign Up</h1>
                      <input type="text" name="save" value="new" style="display:none;">                   
 		      <p>Please fill in this form to create an account.</p>
 		      <hr>
-				<b>Username</b> <input type="text" name="username">
-				<br><b>Password</b> <input type="password" name="password">
+				<b>Username</b> <input type="text" name="username" required>
+				<br><b>Password</b> <input type="password" name="password" required onkeyup="check();">
+                                <br><b>Retype Password</b> <input type="password" name="password_retype" required onkeyup="check();">
+                                <br><span id='message'></span>
 		      <div class="clearfix">
 		        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
 		        <button type="submit" class="signupbtn">Sign Up</button>
@@ -279,6 +281,26 @@ span.psw {
 			        modal.style.display = "none";
 			    }
 			}
+                        var check = function(){
+                              document.getElementById('message').innerHTML="";
+                        }
+                        function validateForm(event)
+                        {
+                            event.preventDefault(); // this will prevent the submit event.
+                            if(document.signup.password.value!=document.signup.password_retype.value)
+                            {
+                              document.getElementById('message').style.color = 'red';
+                                document.getElementById('message').innerHTML = 'Password not matching';
+                              document.signup.password_retype.focus();
+                              return false;
+                            }
+                            else
+                            {
+                                document.signup.submit();// fire submit event
+                            }
+                        }
+                        
+                        
 	</script>
 </body>
 </html>
