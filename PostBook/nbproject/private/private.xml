@@ -4,13 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/ShowPostServlet.java</file>
-            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/web/ShowPost.jsp</file>
             <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/Comment.java</file>
-            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/web/loginpage.jsp</file>
             <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/GetPostServlet.java</file>
-            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/DeleteServlet.java</file>
-            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/AddPostCommentServlet.java</file>
-            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/Post.java</file>
+            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/SaveServlet.java</file>
+            <file>file:/C:/Users/RIDDHI%20DUTTA/Documents/GitHub/J2EE/PostBook/src/java/riddhi/j2ee/userlogin/User.java</file>
         </group>
     </open-files>
 </project-private>

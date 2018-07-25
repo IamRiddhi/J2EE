@@ -253,7 +253,7 @@ span.psw {
 	</div>
 	<form action = "loginExecute.do" method="post">
 		  <div class="imgcontainer">
-		    <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Avatar" class="avatar">
+		    <img src="images/login.png" alt="Login" class="avatar">
 		  </div>
 
 		  <div class="container">
